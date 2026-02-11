@@ -20,7 +20,7 @@ def tag_logs_by_size(log_data):
          tagged_logs.append(line)
 
       else:
-         line.insert(0, "NORMAL" ) 
+         line.insert(0 , "NORMAL" ) 
          tagged_logs.append(line)
    return tagged_logs  
 line = tag_logs_by_size(read_log("network_traffic.log"))
