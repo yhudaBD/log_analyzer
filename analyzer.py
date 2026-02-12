@@ -45,4 +45,33 @@ def cuonter_ports(log_data):
    dict_port = {log[3] : log[4] for log in log_data}
    return dict_port
 di = cuonter_ports(log_data)
-print(di)
+
+def check_ip_risk(log_data):
+   dict_data = {}
+   for line in log_data:
+      ip = line[1]
+      port = line[3]
+      bit = line[5]
+      time = line[0]
+      if ip not in dict_data:
+       dict_data[ip] = []
+
+      if not ip.startswith("10.") and not ip.startswith("192.168."):
+       if "EXTERNAL_IP" not in dict_data[ip]:
+        dict_data[ip].append("EXTERNAL_IP")
+    
+      if  port == "22" or port == "23" or port == "3389":
+        if "SENSITIVE_PORT" not in dict_data[ip]:
+           dict_data[ip].append("SENSITIVE_PORT")
+
+      if  int(bit) > 5000:
+         if  "LARGE_PACKET" not in dict_data[ip]:
+            dict_data[ip].append( "LARGE_PACKET" )
+
+      if time[11:13] == "00" or time[11:13] == "06" :
+         if "HIGHT_ACTIVITY" not in dict_data[ip]:
+            dict_data[ip].append( "HIGHT_ACTIVITY")
+
+   return dict_data        
+p = check_ip_risk(read_log("network_traffic.log"))
+print(len(p))       
