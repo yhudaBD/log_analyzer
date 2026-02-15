@@ -74,4 +74,12 @@ def check_ip_risk(log_data):
 
    return dict_data        
 p = check_ip_risk(read_log("network_traffic.log"))
-print(len(p))       
+
+def filter_len2_suspects(check_ip_risk):
+   new_dict = {}
+   for key,  line in check_ip_risk.items():
+      if len(line) >= 2:
+         new_dict[key] = line
+   return new_dict 
+e = filter_len2_suspects( check_ip_risk(log_data))
+
