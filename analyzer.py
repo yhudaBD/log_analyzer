@@ -49,7 +49,7 @@ di = cuonter_ports(log_data)
 def check_ip_risk(log_data):
    dict_data = {}
    for line in log_data:
-      ip = line[1]
+      ip = line[1] # '10.0.0.8'
       port = line[3]
       bit = line[5]
       time = line[0]
@@ -68,7 +68,7 @@ def check_ip_risk(log_data):
          if  "LARGE_PACKET" not in dict_data[ip]:
             dict_data[ip].append( "LARGE_PACKET" )
 
-      if time[11:13] == "00" or time[11:13] == "06" :
+      if  0 <= int(time[11:13]) < 6  :
          if "HIGHT_ACTIVITY" not in dict_data[ip]:
             dict_data[ip].append( "HIGHT_ACTIVITY")
 
