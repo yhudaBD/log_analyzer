@@ -1,6 +1,6 @@
 from reader import read_log
 from main import log_data
-
+#1.2
 def get_ip_in_log(log_data):
     suspects_ip = []
     for line in log_data:
@@ -12,7 +12,7 @@ def get_ip_in_log(log_data):
 
 log  = get_ip_in_log(read_log("network_traffic.log"))
 
-
+#1.5
 def tag_logs_by_size(log_data):
    tagged_logs = []
    for line in log_data:
@@ -29,7 +29,7 @@ line = tag_logs_by_size(read_log("network_traffic.log"))
 def list_ip(log_data):
      list_ip = [log[1] for log in log_data]
      return list_ip
-
+#2.1
 def cuonter_ip(list_ip):
     my_dict = {}
     for line in list_ip:
@@ -40,12 +40,13 @@ def cuonter_ip(list_ip):
     return my_dict
 d = cuonter_ip(list_ip(log_data))
 
-   
+2.2   
 def cuonter_ports(log_data):
    dict_port = {log[3] : log[4] for log in log_data}
    return dict_port
 di = cuonter_ports(log_data)
 
+#2.3
 def check_ip_risk(log_data):
    dict_data = {}
    for line in log_data:
@@ -75,6 +76,7 @@ def check_ip_risk(log_data):
    return dict_data        
 p = check_ip_risk(read_log("network_traffic.log"))
 
+#2.4
 def filter_len2_suspects(check_ip_risk):
    new_dict = {}
    for key,  line in check_ip_risk.items():
