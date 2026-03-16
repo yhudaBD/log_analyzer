@@ -1,5 +1,5 @@
 from reader import read_log
-
+#1.3
 def filter_sensitive_ports(log_data):
      list_port_sens = []
      for line in log_data:

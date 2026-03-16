@@ -1,5 +1,6 @@
 from reader import read_log
-
+from main import log_data
+#1.2
 def get_ip_in_log(log_data):
     suspects_ip = []
     for line in log_data:
@@ -11,7 +12,7 @@ def get_ip_in_log(log_data):
 
 log  = get_ip_in_log(read_log("network_traffic.log"))
 
-
+#1.5
 def tag_logs_by_size(log_data):
    tagged_logs = []
    for line in log_data:
@@ -20,8 +21,67 @@ def tag_logs_by_size(log_data):
          tagged_logs.append(line)
 
       else:
-         line.insert(0, "NORMAL" ) 
+         line.insert(0 , "NORMAL" ) 
          tagged_logs.append(line)
    return tagged_logs  
 line = tag_logs_by_size(read_log("network_traffic.log"))
+
+def list_ip(log_data):
+     list_ip = [log[1] for log in log_data]
+     return list_ip
+#2.1
+def cuonter_ip(list_ip):
+    my_dict = {}
+    for line in list_ip:
+      if line in my_dict:
+        my_dict[line] += 1
+      else:
+       my_dict[line] = 1
+    return my_dict
+d = cuonter_ip(list_ip(log_data))
+
+2.2   
+def cuonter_ports(log_data):
+   dict_port = {log[3] : log[4] for log in log_data}
+   return dict_port
+di = cuonter_ports(log_data)
+
+#2.3
+def check_ip_risk(log_data):
+   dict_data = {}
+   for line in log_data:
+      ip = line[1] # '10.0.0.8'
+      port = line[3]
+      bit = line[5]
+      time = line[0]
+      if ip not in dict_data:
+       dict_data[ip] = []
+
+      if not ip.startswith("10.") and not ip.startswith("192.168."):
+       if "EXTERNAL_IP" not in dict_data[ip]:
+        dict_data[ip].append("EXTERNAL_IP")
+    
+      if  port == "22" or port == "23" or port == "3389":
+        if "SENSITIVE_PORT" not in dict_data[ip]:
+           dict_data[ip].append("SENSITIVE_PORT")
+
+      if  int(bit) > 5000:
+         if  "LARGE_PACKET" not in dict_data[ip]:
+            dict_data[ip].append( "LARGE_PACKET" )
+
+      if  0 <= int(time[11:13]) < 6  :
+         if "HIGHT_ACTIVITY" not in dict_data[ip]:
+            dict_data[ip].append( "HIGHT_ACTIVITY")
+
+   return dict_data        
+p = check_ip_risk(read_log("network_traffic.log"))
+
+#2.4
+def filter_len2_suspects(check_ip_risk):
+   new_dict = {}
+   for key,  line in check_ip_risk.items():
+      if len(line) >= 2:
+         new_dict[key] = line
+   return new_dict 
+e = filter_len2_suspects( check_ip_risk(log_data))
 
