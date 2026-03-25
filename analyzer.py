@@ -85,3 +85,6 @@ def filter_len2_suspects(check_ip_risk):
    return new_dict 
 e = filter_len2_suspects( check_ip_risk(log_data))
 
+#3.2
+Packet_Size_Conversion = list(map(lambda line: int(line[5]) / 1024 , log_data))
+
