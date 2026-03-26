@@ -18,3 +18,6 @@ hours = list(map(lambda line: datetime.strptime(line[0], "%Y-%m-%d %H:%M:%S").ho
 Port_Filtering = list(
     filter(lambda line:
      line[3] == "22" or line[3] == "23" or line[3] == "3389" , log_data ))
+
+#3.4
+Night_activity = list(filter(lambda line:   0 <= int(line[0][11:13]) < 6 , log_data))
